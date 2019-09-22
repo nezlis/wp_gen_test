@@ -1,16 +1,6 @@
 ---
 
-#- name: Update and upgrade apt packages
-#  become: yes
-#  apt:
-#    upgrade: yes
-#    update_cache: yes
-#    cache_valid_time: 86400
 
-- name: Uninstall Apache # have to add this step because DO Droplets by default has apache installed
-  apt:
-    name: apache2
-    state: absent
 
 - name: Install Mysql both server and client with python required packages
   apt:
@@ -85,7 +75,6 @@
     cache_valid_time: 86400
     state: present
   loop:
-    - php
     - php-mysql
     - php-fpm
     - php-curl
@@ -101,9 +90,9 @@
 - name: Install nginx
   apt:
     pkg: nginx
-#    update_cache: yes
-#    cache_valid_time: 86400
+    update_cache: yes
     state: present
+  ignore_errors: yes
   notify:
     - restart nginx
 
@@ -115,6 +104,7 @@
   file:
     path: "{{ item }}"
     state: directory
+    recurse: yes
     mode: 0755
     owner: www-data
     group: www-data
@@ -135,25 +125,17 @@
   template:
     src: test1-wp-config.php.j2
     dest: /home/{{ user_name }}/{{ domain_1 }}/wordpress/wp-config.php
-    owner: root
-    group: root
+    owner: www-data
+    group: www-data
     mode: '0755'
 
 - name: Template a file to /home/{{ user_name }}/{{ domain_2 }}/wordpress/
   template:
     src: test2-wp-config.php.j2
     dest: /home/{{ user_name }}/{{ domain_2 }}/wordpress/wp-config.php
-    owner: root
-    group: root
+    owner: www-data
+    group: www-data
     mode: '0755'
-
-
-
-
-
-
-
-
 
 - name: Template a file to /etc/nginx/sites-available/{{ domain_1 }}
   template:
@@ -173,7 +155,7 @@
 
 - name: Create a symbolic link for Nginx config1
   file:
-    src: /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+    src: /etc/nginx/sites-available/{{ domain_1 }}
     dest: /etc/nginx/sites-enabled/{{ domain_1 }}
     owner: root
     group: root
@@ -181,8 +163,8 @@
 
 - name: Create a symbolic link for Nginx config2
   file:
-    src: /etc/nginx/sites-available/wp-genesis-test2.pp.ua
-    dest: /etc/nginx/sites-enabled{{ domain_2 }}
+    src: /etc/nginx/sites-available/{{ domain_2 }}
+    dest: /etc/nginx/sites-enabled/{{ domain_2 }}
     owner: root
     group: root
     state: link
@@ -194,5 +176,8 @@
   loop:
     - /etc/nginx/sites-available/default
     - /etc/nginx/sites-enabled/default
+  notify:
+    - restart nginx
+    - restart php
 
 # tasks file for wpgen
