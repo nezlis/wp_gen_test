@@ -120,6 +120,20 @@
     - /home/{{ user_name }}/{{ domain_1 }}
     - /home/{{ user_name }}/{{ domain_2 }}
 
+
+
+- name: Wordpress | Extract archive in {{ wp_install_dir }}
+  unarchive:
+    src: "http://wordpress.org/latest.tar.gz"
+    dest: "{{ item }}"
+    remote_src: yes
+  loop:
+    - /home/{{ user_name }}/{{ domain_1 }}
+    - /home/{{ user_name }}/{{ domain_2 }}
+
+
+
+
 - name: Template a file to /etc/nginx/sites-available/wp-genesis-test1.pp.ua
   template:
     src: wp-genesis-test1.pp.ua.Nginx.j2
