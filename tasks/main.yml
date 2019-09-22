@@ -110,19 +110,15 @@
 - name: Add the user "{{ user_name }}"
   user:
     name: "{{ user_name }}"
-    comment: John Doe
 
-- name: Create directory_1 for WP
+- name: Create directory for WP to install
   file:
-    path: /home/"{{ user_name }}"/"{{ domain_1 }}"
+    path: "{{ item }}"
     state: directory
     mode: 0755
-
-- name: Create directory_2 for WP
-  file:
-    path: /home/"{{ user_name }}"/"{{ domain_2 }}"
-    state: directory
-    mode: 0755
+  loop:
+    - /home/{{ user_name }}/{{ domain_1 }}
+    - /home/{{ user_name }}/{{ domain_2 }}
 
 - name: Template a file to /etc/nginx/sites-available/wp-genesis-test1.pp.ua
   template:
