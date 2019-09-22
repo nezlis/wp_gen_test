@@ -26,6 +26,8 @@ wp_mysql_password - password for above mentioned mysql DB user
 wp_mysql_db_1 - define mysql DB name to use with {domain_1} site
 wp_mysql_db_2 - define mysql DB name to use with {domain_1} site
 
+mysql_root_db_pass - you can also define default root mysql DB password in this var inside /defaults/main.yml
+
 Dependencies
 ------------
 
@@ -47,7 +49,28 @@ Example Playbook
     wp_mysql_db_1: 'wp-genesis-test1_db1'
     wp_mysql_db_2: 'wp-genesis-test2_db2'
   roles:
-    - wpgen
+    - wp_gen_test
+
+So to test this role, just do:
+
+
+
+0. install role - "ansible-galaxy install nezlis.wp_gen_test" from cli
+
+1. Create playbook.yml with above mention context
+
+2. Add target host to your defauls ansible hosts or create separate inventory file (for ex inventory.file with only one target host)
+
+3. Run "ansible-playbook -i inventory.file playbook.yml"
+
+4. After playbook successfully played you need to add to your /etc/hosts:
+target_host_IP    {{domain_1}}
+target_host_IP    {{domain_2}}
+
+5. Wisit web page in you browser, for example - wp-genesis-test1.com
+
+
+
 
 
 License
