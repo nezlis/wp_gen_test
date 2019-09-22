@@ -1,2 +1,73 @@
 ---
+
+#- name: Update and upgrade apt packages
+#  become: yes
+#  apt:
+#    upgrade: yes
+#    update_cache: yes
+#    cache_valid_time: 86400
+
+- name: Uninstall Apache # have to add this step because DO Droplets by default has apache installed
+  apt:
+    name: apache2
+    state: absent
+
+- name: Install Mysql both server and client with python required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - mysql-server
+    - mysql-client
+    - python-mysqldb
+    - python-selinux
+
+- name: Create mysql db for 2 wp-sites
+  mysql_db:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ wp_mysql_db_1 }}"
+    - "{{ wp_mysql_db_2 }}"
+
+- name: Create mysql user
+  mysql_user:
+    name: "{{ wp_mysql_user }}"
+    password: "{{ wp_mysql_password }}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  notify:
+    - restart mysql
+
+- name: Removes anonymous user account for security reasons
+  mysql_user:
+    name: ''
+    state: absent
+
+- name: Install php required modules
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 86400
+    state: present
+  loop:
+    - php
+    - php-mysql
+    - php-fpm
+    - php-curl
+    - php-gd
+    - php-pear
+    - php-imagick
+    - php-imap
+    - php-mcrypt
+    - php-recode
+    - php-tidy
+    - php-xmlrpc
+
+- name: Install nginx
+  apt:
+    pkg: nginx
+    update_cache: yes
+    cache_valid_time: 86400
+    state: present
 # tasks file for wpgen

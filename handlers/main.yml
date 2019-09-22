@@ -1,2 +1,8 @@
 ---
+
+- name: restart mysql service
+  service:
+    name: mysql
+    state: restarted
+  listen: restart mysql
 # handlers file for wpgen
