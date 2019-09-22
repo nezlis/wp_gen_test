@@ -4,5 +4,13 @@
   service:
     name: mysql
     state: restarted
+    enabled: yes
   listen: restart mysql
+
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  listen: restart nginx
 # handlers file for wpgen

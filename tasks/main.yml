@@ -30,6 +30,11 @@
     - "{{ wp_mysql_db_1 }}"
     - "{{ wp_mysql_db_2 }}"
 
+- name: remove the test database
+  mysql_db:
+    name: test
+    state: absent
+
 - name: Create mysql user
   mysql_user:
     name: "{{ wp_mysql_user }}"
@@ -43,6 +48,35 @@
   mysql_user:
     name: ''
     state: absent
+  notify:
+    - restart mysql
+
+- name: update mysql root password for all root accounts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_db_pass }}"
+  loop:
+   - "{{ ansible_hostname }}"
+   - 127.0.0.1
+   - ::1
+   - localhost
+  when: ansible_hostname != 'localhost'
+  notify:
+    - restart mysql
+
+- name: update mysql root password for all root accounts
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ mysql_root_db_pass }}"
+  with_items:
+   - 127.0.0.1
+   - ::1
+   - localhost
+  when: ansible_hostname == 'localhost'
+  notify:
+    - restart mysql
 
 - name: Install php required modules
   apt:
@@ -67,7 +101,9 @@
 - name: Install nginx
   apt:
     pkg: nginx
-    update_cache: yes
-    cache_valid_time: 86400
+#    update_cache: yes
+#    cache_valid_time: 86400
     state: present
+  notify:
+    - restart nginx  
 # tasks file for wpgen
