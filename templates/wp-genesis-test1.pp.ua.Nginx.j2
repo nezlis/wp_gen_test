@@ -4,12 +4,12 @@ server {
 	listen 80;
 	listen [::]:80;
 
-	root /var/www/html/wp-genesis-test1.pp.ua;
+	root /home/{{create_user}}/{{wp_domain_1}}/wordpress;
 
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;
 
-	server_name wp-genesis-test1.pp.ua www.wp-genesis-test1.pp.ua;
+	server_name {{wp_domain_1}} www.{{wp_domain_1}};
 
 	location / {
 

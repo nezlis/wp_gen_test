@@ -3,6 +3,8 @@
   remote_user: root
   become: yes
   vars:
+    domain_1: 'wp-genesis-test1.pp.ua'
+    domain_2: 'wp-genesis-test2.pp.ua'
     user_name: 'Test'
     wp_mysql_user: 'amorozov'
     wp_mysql_password: 'inbox123098'

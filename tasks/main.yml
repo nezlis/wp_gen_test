@@ -116,11 +116,13 @@
     path: "{{ item }}"
     state: directory
     mode: 0755
+    owner: www-data
+    group: www-data
   loop:
     - /home/{{ user_name }}/{{ domain_1 }}
     - /home/{{ user_name }}/{{ domain_2 }}
 
-- name: Wordpress | Extract archive in {{ wp_install_dir }}
+- name: Extract WP archive
   unarchive:
     src: "http://wordpress.org/latest.tar.gz"
     dest: "{{ item }}"
@@ -137,7 +139,7 @@
     group: root
     mode: '0755'
 
-- name: Template a file to /home/{{ user_name }}/{{ domain_1 }}/wordpress/
+- name: Template a file to /home/{{ user_name }}/{{ domain_2 }}/wordpress/
   template:
     src: test2-wp-config.php.j2
     dest: /home/{{ user_name }}/{{ domain_2 }}/wordpress/wp-config.php
@@ -145,18 +147,26 @@
     group: root
     mode: '0755'
 
-- name: Template a file to /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+
+
+
+
+
+
+
+
+- name: Template a file to /etc/nginx/sites-available/{{ domain_1 }}
   template:
     src: wp-genesis-test1.pp.ua.Nginx.j2
-    dest: /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+    dest: /etc/nginx/sites-available/{{ domain_1 }}
     owner: root
     group: root
     mode: '0755'
 
-- name: Template a file to /etc/nginx/sites-available/wp-genesis-test2.pp.ua
+- name: Template a file to /etc/nginx/sites-available/{{ domain_2 }}
   template:
     src: wp-genesis-test2.pp.ua.Nginx.j2
-    dest: /etc/nginx/sites-available/wp-genesis-test2.pp.ua
+    dest: /etc/nginx/sites-available/{{ domain_2 }}
     owner: root
     group: root
     mode: '0755'
@@ -164,7 +174,7 @@
 - name: Create a symbolic link for Nginx config1
   file:
     src: /etc/nginx/sites-available/wp-genesis-test1.pp.ua
-    dest: /etc/nginx/sites-enabled/wp-genesis-test1.pp.ua
+    dest: /etc/nginx/sites-enabled/{{ domain_1 }}
     owner: root
     group: root
     state: link
@@ -172,7 +182,7 @@
 - name: Create a symbolic link for Nginx config2
   file:
     src: /etc/nginx/sites-available/wp-genesis-test2.pp.ua
-    dest: /etc/nginx/sites-enabled/wp-genesis-test2.pp.ua
+    dest: /etc/nginx/sites-enabled{{ domain_2 }}
     owner: root
     group: root
     state: link

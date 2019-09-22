@@ -6,6 +6,6 @@ wp_db_name_1: "{{ wp_mysql_db_1}}"
 wp_db_name_2: "{{ wp_mysql_db_2 }}"
 mysql_root_db_pass: 'amorozov123'
 create_user: "{{ user_name }}"
-domain_1: 'wp-genesis-test1.pp.ua'
-domain_2: 'wp-genesis-test2.pp.ua'
+wp_domain_1: "{{ domain_1 }}"
+wp_domain_2: "{{ domain_2 }}"
 # defaults file for wpgen
