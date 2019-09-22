@@ -120,8 +120,6 @@
     - /home/{{ user_name }}/{{ domain_1 }}
     - /home/{{ user_name }}/{{ domain_2 }}
 
-
-
 - name: Wordpress | Extract archive in {{ wp_install_dir }}
   unarchive:
     src: "http://wordpress.org/latest.tar.gz"
@@ -131,8 +129,21 @@
     - /home/{{ user_name }}/{{ domain_1 }}
     - /home/{{ user_name }}/{{ domain_2 }}
 
+- name: Template a file to /home/{{ user_name }}/{{ domain_1 }}/wordpress/
+  template:
+    src: test1-wp-config.php.j2
+    dest: /home/{{ user_name }}/{{ domain_1 }}/wordpress/wp-config.php
+    owner: root
+    group: root
+    mode: '0755'
 
-
+- name: Template a file to /home/{{ user_name }}/{{ domain_1 }}/wordpress/
+  template:
+    src: test2-wp-config.php.j2
+    dest: /home/{{ user_name }}/{{ domain_2 }}/wordpress/wp-config.php
+    owner: root
+    group: root
+    mode: '0755'
 
 - name: Template a file to /etc/nginx/sites-available/wp-genesis-test1.pp.ua
   template:
