@@ -3,6 +3,7 @@
   remote_user: root
   become: yes
   vars:
+    user_name: 'Test'
     wp_mysql_user: 'amorozov'
     wp_mysql_password: 'inbox123098'
     wp_mysql_db_1: 'wpuser1'

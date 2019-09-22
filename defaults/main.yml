@@ -5,4 +5,5 @@ wp_db_password: "{{ wp_mysql_password }}"
 wp_db_name_1: "{{ wp_mysql_db_1}}"
 wp_db_name_2: "{{ wp_mysql_db_2 }}"
 mysql_root_db_pass: 'amorozov123'
+create_user: "{{ user_name }}"
 # defaults file for wpgen
