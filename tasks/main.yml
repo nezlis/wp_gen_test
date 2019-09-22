@@ -105,5 +105,46 @@
 #    cache_valid_time: 86400
     state: present
   notify:
-    - restart nginx  
+    - restart nginx
+
+- name: Template a file to /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+  template:
+    src: wp-genesis-test1.pp.ua.Nginx.j2
+    dest: /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Template a file to /etc/nginx/sites-available/wp-genesis-test2.pp.ua
+  template:
+    src: wp-genesis-test2.pp.ua.Nginx.j2
+    dest: /etc/nginx/sites-available/wp-genesis-test2.pp.ua
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create a symbolic link for Nginx config1
+  file:
+    src: /etc/nginx/sites-available/wp-genesis-test1.pp.ua
+    dest: /etc/nginx/sites-enabled/wp-genesis-test1.pp.ua
+    owner: root
+    group: root
+    state: link
+
+- name: Create a symbolic link for Nginx config2
+  file:
+    src: /etc/nginx/sites-available/wp-genesis-test2.pp.ua
+    dest: /etc/nginx/sites-enabled/wp-genesis-test2.pp.ua
+    owner: root
+    group: root
+    state: link
+
+- name: Delete /etc/nginx/sites-available/default
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/nginx/sites-available/default
+    - /etc/nginx/sites-enabled/default
+
 # tasks file for wpgen
