@@ -1,6 +1,6 @@
 galaxy_info:
   author: Artur Morozov
-  description: role to install wp with multiple sites, nginx, mysql
+  description: role to install wp with multiple sites, nginx, mysql. Do not use in production, just be shure to  store all your passwords safe and not in open vars like this role does.
   company: company
 
   # If the issue tracker for your role is not on github, uncomment the

@@ -1,38 +1,64 @@
-Role Name
+wpgen
 =========
 
-A brief description of the role goes here.
+This role is made only for testing things, do not use in production.
+Using this role you will be able to install:
+
+- mysql DB (2 databases included in provided variables)
+- nginx web server with 2 listening domains
+- 2 separate wordpress sites
+- user with home dir where wordpress data will be stored
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The Role tested on Debian 9.7 x64 (on standart Digital Ocean droplet), with ansible v.2.8.5.
+Use this code with different OS or ansible version at your own risk!!!
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+domain_1: - will set your wordpress site dir name, nginx config name and server_name inside nginx config
+domain_2: - will set your wordpress site dir name, nginx config name and server_name inside nginx config
+user_name: - creates username with home dir where wordpress sites will be stored
+wp_mysql_user - creates singe mysql DN user with GRANT permissions
+wp_mysql_password - password for above mentioned mysql DB user
+wp_mysql_db_1 - define mysql DB name to use with {domain_1} site
+wp_mysql_db_2 - define mysql DB name to use with {domain_1} site
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+There is no any dependencies you need to wary about
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+---
+- hosts: all
+  remote_user: root
+  become: yes
+  vars:
+    domain_1: 'wp-genesis-test1.com'
+    domain_2: 'wp-genesis-test2.com'
+    user_name: 'spanchbob'
+    wp_mysql_user: 'spanchbob-db'
+    wp_mysql_password: 'supersecretpass'
+    wp_mysql_db_1: 'wp-genesis-test1_db1'
+    wp_mysql_db_2: 'wp-genesis-test2_db2'
+  roles:
+    - wpgen
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-BSD
+BSD ( default ? )
+You can use this without even asking someone, especialy me :)
+
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+IT Switcher trying to be DevOps and to be hired in one of TOP 15 IT companies in my country.
+So this is just a test task that i learned a lot from doing it.
