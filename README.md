@@ -1,4 +1,4 @@
-wpgen
+nezlis.wp_gen_test
 =========
 
 This role is made only for testing things, do not use in production.
@@ -49,7 +49,7 @@ Example Playbook
     wp_mysql_db_1: 'wp-genesis-test1_db1'
     wp_mysql_db_2: 'wp-genesis-test2_db2'
   roles:
-    - wp_gen_test
+    - nezlis.wp_gen_test
 
 So to test this role, just do:
 
