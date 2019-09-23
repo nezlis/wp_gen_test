@@ -11,4 +11,4 @@
     wp_mysql_db_1: 'wp-genesis-test1_db1'
     wp_mysql_db_2: 'wp-genesis-test2_db2'
   roles:
-    - wpgen
+    - nezlis.wp_gen_test
